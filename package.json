@@ -16,21 +16,19 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "pre-commit": "lint-staged"
+    "pre-commit": "lint-staged",
+    "prepare": "husky install"
   },
-
   "lint-staged": {
-       "src/**/*.{js,json}": [
-         "prettier --write"
-       ]
-     },
-  
-    "husky": {
-        "hooks": {
-          "pre-commit": "lint-staged"
-        }
-      },
-
+    "src/**/*.{js,json}": [
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "browserslist": {
     "production": [
       ">0.2%",
