@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import Button from 'components/atoms/Button/Button';
+import DeleteButton from 'components/atoms/DeleteButton/DeleteButton';
 import { Wrapper } from './UsersListItem.styles';
 // prettier-ignore
 import { NameStyle, AttendanceStyle, AverageStyle, ParagraphWrapper } from './UsersListItem.styles';
+import { UsersContext } from 'Providers/UsersProvider';
 
-const UsersListItem = ({ deleteUser, userData: { average, name, attendance = '0%' }, ...props }) => {
+const UsersListItem = ({ userData: { average, name, attendance = '0%' }, ...props }) => {
+  const { deleteUser } = useContext(UsersContext);
+
   return (
     <Wrapper>
       <AverageStyle value={average}>{average}</AverageStyle>
@@ -13,7 +16,7 @@ const UsersListItem = ({ deleteUser, userData: { average, name, attendance = '0%
         <NameStyle>{name}</NameStyle>
         <AttendanceStyle>attendance:{attendance}</AttendanceStyle>
       </ParagraphWrapper>
-      <Button onClick={() => deleteUser(name)} />
+      <DeleteButton onClick={() => deleteUser(name)} />
     </Wrapper>
   );
 };
