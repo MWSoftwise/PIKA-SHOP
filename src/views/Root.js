@@ -16,9 +16,10 @@ const Root = () => {
         <MainTemplate>
           <Wrapper>
             <Routes>
-              <Route exact path="/" element={<Navigate to="/group" />} />
+              <Route path="/" element={<Navigate to="/group/A" />} />
               <Route path="/add-user" element={<AddUser />} />
-              <Route path="/group:id?" element={<Dashboard />} />
+              <Route path="/group" element={<Dashboard />} />
+              <Route path="/group/:id" element={<Dashboard />} />
             </Routes>
           </Wrapper>
         </MainTemplate>

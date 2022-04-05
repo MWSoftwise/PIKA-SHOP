@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { ViewWrapper } from 'components/molecules/ViewWrapper/ViewWrapper';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, Navigate } from 'react-router-dom';
 import UsersList from 'components/organisms/UsersList/UsersList';
 
 const Dashboard = () => {
@@ -23,6 +23,7 @@ const Dashboard = () => {
       .catch((err) => console.log(err));
   }, [id, groups]);
 
+  if (!id && groups.length > 0) return <Navigate to={`/group/${groups[0]}`} />;
   return (
     <ViewWrapper>
       <nav>
