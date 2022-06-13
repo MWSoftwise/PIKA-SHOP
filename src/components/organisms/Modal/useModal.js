@@ -10,8 +10,8 @@ const useModal = (initialState = false) => {
   return {
     Modal,
     isOpen,
-    handleCloseModal,
     handleOpenModal,
+    handleCloseModal,
   };
 };
 

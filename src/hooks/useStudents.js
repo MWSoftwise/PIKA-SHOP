@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import axios from 'axios';
 
-export const useStudents = ({ groupId = '' } = {}) => {
+export const useStudents = () => {
   const getGroups = useCallback(async () => {
     try {
       const result = await axios.get('/groups');
@@ -11,9 +11,19 @@ export const useStudents = ({ groupId = '' } = {}) => {
     }
   }, []);
 
-  const getStudents = useCallback(async (groupId) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const getStudentById = useCallback(async (studentId) => {
     try {
-      const result = await axios.get(`/students/${groupId}`);
+      const result = await axios.get(`/students/${studentId}`);
+      return result.data.students;
+    } catch (e) {
+      console.log(e);
+    }
+  });
+
+  const getStudentsByGroup = useCallback(async (groupId) => {
+    try {
+      const result = await axios.get(`/groups/${groupId}`);
       return result.data.students;
     } catch (e) {
       console.log(e);
@@ -32,8 +42,9 @@ export const useStudents = ({ groupId = '' } = {}) => {
   };
 
   return {
-    getStudents,
     getGroups,
+    getStudentsByGroup,
     findStudents,
+    getStudentById,
   };
 };
