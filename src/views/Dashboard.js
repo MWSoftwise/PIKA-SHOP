@@ -5,13 +5,14 @@ import { useStudents } from 'hooks/useStudents';
 import { GroupWrapper, TitleWrapper, Wrapper } from './Dashboard.styles';
 import { Title } from 'components/atoms/Title/Title';
 import useModal from 'components/organisms/Modal/useModal';
+import { StyledAverage } from 'components/molecules/StudentsListItem/StudentsListItem.styles';
 
 const Dashboard = () => {
   const [groups, setGroups] = useState([]);
-  const [currentStudent, setCurrentStudent] = useState([]);
-  const { getGroups } = useStudents();
+  const [currentStudent, setCurrentStudent] = useState(null);
+  const { getGroups, getStudentById } = useStudents();
   const { id } = useParams();
-  const { Modal, isOpen, handleOpenModal, handleCloseModal } = useModal;
+  const { Modal, isOpen, handleOpenModal, handleCloseModal } = useModal();
 
   useEffect(() => {
     (async () => {
@@ -20,9 +21,11 @@ const Dashboard = () => {
     })();
   }, [getGroups]);
 
-  const handleOpenStudentDetails = (id) => {
-    setCurrentStudent(id);
+  const handleOpenStudentDetails = async (id) => {
+    const student = await getStudentById(id);
+    setCurrentStudent(student);
     handleOpenModal();
+    console.log(isOpen);
   };
 
   if (!id && groups.length > 0) return <Navigate to={`/group/${groups[0]}`} />;
@@ -40,7 +43,15 @@ const Dashboard = () => {
       </TitleWrapper>
       <GroupWrapper>
         <StudentsList handleOpenStudentDetails={handleOpenStudentDetails} />
-        {isOpen ? <Modal>{currentStudent}</Modal> : null}
+        {isOpen ? (
+          <Modal handleClose={handleCloseModal}>
+            <Title>
+              {currentStudent.name} | Group {currentStudent.group}
+            </Title>
+            <p>{currentStudent.attendance}</p>
+            <StyledAverage value={currentStudent.average}>{currentStudent.average}</StyledAverage>
+          </Modal>
+        ) : null}
       </GroupWrapper>
     </Wrapper>
   );
